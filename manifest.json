@@ -2,11 +2,7 @@
     "manifest_version": 2,
     "version": "1.0.0",
     "name": "Jira Issue Copy",
-    "permissions": ["activeTab"],
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": false
-    },
+    "permissions": ["activeTab", "storage"],
     "browser_action": {
         "default_title": "Jira Issue Copy",
         "default_popup": "popup.html"
