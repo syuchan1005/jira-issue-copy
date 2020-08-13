@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <title>Jira Issue Copy</title>
+
+    <link rel="stylesheet" type="text/css" href="lib/semantic.min.css">
+    <script src="lib/jquery-3.1.1.min.js"></script>
+    <script src="lib/semantic.min.js"></script>
+
+    <script type="text/javascript" src="popup.js"></script>
+
+    <style>
+        #main-form {
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+<form class="ui fluid form" id="main-form">
+    <div>
+        <label>Number format</label>
+        <div class="inline fields">
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="numberFormat" id="numberFormat-NOOP" value="NOOP" checked="checked">
+                    <label for="numberFormat-NOOP">Noop</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="numberFormat" id="numberFormat-LOWER" value="LOWER">
+                    <label for="numberFormat-LOWER">Lowercase</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="numberFormat" id="numberFormat-UPPER" value="UPPER">
+                    <label for="numberFormat-UPPER">Uppercase</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label>Divider format</label>
+        <div class="inline fields">
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="dividerFormat" id="dividerFormat-EMPTY" value="EMPTY" checked="checked">
+                    <label for="dividerFormat-EMPTY">Empty</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="dividerFormat" id="dividerFormat-DASH" value="DASH">
+                    <label for="dividerFormat-DASH">Dash (-)</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="dividerFormat" id="dividerFormat-UNDERSCORE" value="UNDERSCORE">
+                    <label for="dividerFormat-UNDERSCORE">Underscore (_)</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="dividerFormat" id="dividerFormat-SPACE" value="SPACE">
+                    <label for="dividerFormat-SPACE">One space</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label>Title format</label>
+        <div class="inline fields">
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="titleFormat" id="titleFormat-NOOP" value="NOOP" checked="checked">
+                    <label for="titleFormat-NOOP">Noop</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="titleFormat" id="titleFormat-UNDERSCORE" value="UNDERSCORE">
+                    <label for="titleFormat-UNDERSCORE">Underscore (_)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="ui pointing below label">
+            Preview
+        </div>
+        <div class="ui action input">
+            <input type="text" name="preview" id="preview-input" readonly>
+            <button id="copy-btn" class="ui primary button">Copy</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
