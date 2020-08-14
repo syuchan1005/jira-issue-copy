@@ -61,23 +61,21 @@ window.addEventListener('DOMContentLoaded', () => {
         renderPreviewText();
     });
 
+    copyElement.addEventListener('click', () => {
+        previewElement.focus();
+        previewElement.select();
+
+        document.execCommand('Copy');
+
+        ga('send', 'event', 'button', 'click', 'copy-btn',
+            Object.fromEntries(formValueKeys.map((k) => [k, formElement[k].value])));
+    });
+
     chrome.tabs.executeScript(
         {file: 'getIssueData.js'},
         (res) => {
-            issueData = JSON.parse(res) || issueData;
+            issueData = res ? JSON.parse(res) : issueData;
             renderPreviewText();
         },
     );
-
-    copyElement.addEventListener('click', () => {
-        const input = document.createElement('textarea');
-
-        document.body.appendChild(input);
-        input.value = previewElement.value;
-        input.focus();
-        input.select();
-
-        document.execCommand('Copy');
-        input.remove();
-    });
 });
