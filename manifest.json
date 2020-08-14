@@ -2,17 +2,11 @@
     "manifest_version": 2,
     "version": "1.0.1",
     "name": "Jira Issue Copy",
-    "permissions": ["activeTab", "storage"],
+    "permissions": ["activeTab", "storage", "clipboardWrite"],
     "browser_action": {
         "default_title": "Jira Issue Copy",
         "default_popup": "popup.html"
     },
-    "content_scripts": [
-        {
-            "matches": ["*://*/*"],
-            "js": ["content.js"]
-        }
-    ],
     "description": "Jira issue number and title to clipboard",
     "icons": {
         "16": "icon16.png",
