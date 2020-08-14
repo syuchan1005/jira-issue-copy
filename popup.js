@@ -64,7 +64,7 @@ window.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.executeScript(
         {file: 'getIssueData.js'},
         (res) => {
-            issueData = JSON.parse(res) || issueData;
+            issueData = res ? JSON.parse(res) : issueData;
             renderPreviewText();
         },
     );
@@ -79,5 +79,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         document.execCommand('Copy');
         input.remove();
+
+        ga('send', 'event', 'button', 'click', 'copy-btn',
+            Object.fromEntries(formValueKeys.map((k) => [k, formElement[k].value])));
     });
 });
