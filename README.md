@@ -1,4 +1,7 @@
 # Jira Issue Copy
+
+[![Chrome WebStore](https://img.shields.io/badge/-Chrome%20WebStore-green)](https://chrome.google.com/webstore/detail/jira-issue-copy/ghfoghmpahhkdmkegmkhaokhbpmnoodj)
+
 ## How to install
 1. download zip file from release
 2. extract it
