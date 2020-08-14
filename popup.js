@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get(formValueKeys, (res) => {
         if (res) {
             formValueKeys.forEach((k) => {
-               formElement[k].value = res[k];
+                formElement[k].value = res[k];
             });
             renderPreviewText();
         }
@@ -61,20 +61,13 @@ window.addEventListener('DOMContentLoaded', () => {
         renderPreviewText();
     });
 
-    chrome.tabs.query({
-        active: true,
-        currentWindow: true
-    }, (tabs) => {
-        chrome.tabs.sendMessage(
-            tabs[0].id,
-            {from: 'popup', action: 'getIssueData'},
-            // TODO: lastError
-            (res) => {
-                issueData = res || issueData;
-                renderPreviewText();
-            },
-        );
-    });
+    chrome.tabs.executeScript(
+        {file: 'getIssueData.js'},
+        (res) => {
+            issueData = JSON.parse(res) || issueData;
+            renderPreviewText();
+        },
+    );
 
     copyElement.addEventListener('click', () => {
         const input = document.createElement('textarea');
