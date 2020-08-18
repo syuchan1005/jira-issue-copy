@@ -1,81 +1,104 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const formElement = document.querySelector('#main-form');
-    const formValueKeys = ['numberFormat', 'dividerFormat', 'titleFormat'];
-    const previewElement = document.querySelector('#preview-input');
-    const copyElement = document.querySelector('#copy-btn');
+  const formValueType = {
+    numberFormat: {
+      type: [
+        'NOOP',
+        'UPPER',
+        'LOWER',
+      ],
+      actions: [
+        (str) => str,
+        (str) => str.toUpperCase(),
+        (str) => str.toLowerCase(),
+      ],
+    },
+    dividerFormat: {
+      type: [
+        'EMPTY',
+        'DASH',
+        'UNDERSCORE',
+        'SPACE',
+      ],
+      actions: [
+        () => '',
+        () => '-',
+        () => '_',
+        () => ' ',
+      ],
+    },
+    titleFormat: {
+      type: [
+        'NOOP',
+        'UNDERSCORE',
+      ],
+      actions: [
+        (str) => str,
+        (str) => str.replace(/ /g, '_'),
+      ],
+    },
+  };
 
-    chrome.storage.local.get(formValueKeys, (res) => {
-        if (res) {
-            formValueKeys.forEach((k) => {
-                formElement[k].value = res[k];
-            });
-            renderPreviewText();
-        }
-    });
+  const formElement = document.querySelector('#main-form');
+  const previewElement = document.querySelector('#preview-input');
+  const copyElement = document.querySelector('#copy-btn');
 
-    let issueData = {num: '', title: ''};
-    const renderPreviewText = () => {
-        let str = '';
-        switch (formElement.numberFormat.value) {
-            case 'UPPER':
-                str += issueData.num.toUpperCase();
-                break;
-            case 'LOWER':
-                str += issueData.num.toLowerCase();
-                break;
-            case 'NOOP':
-            default:
-                str += issueData.num;
-                break;
-        }
+  chrome.storage.local.get(Object.keys(formValueType), (res) => {
+    if (res) {
+      Object.keys(formValueType).forEach((k) => {
+        formElement[k].value = parseInt(res[k], 10) || 0;
+      });
+      renderPreviewText();
+    }
+  });
 
-        switch (formElement.dividerFormat.value) {
-            case 'DASH':
-                str += '-';
-                break;
-            case 'UNDERSCORE':
-                str += '_';
-                break;
-            case 'SPACE':
-                str += ' ';
-                break;
-            // case 'EMPTY':
-        }
+  let issueData = { num: '', title: '' };
+  const renderPreviewText = () => {
+    let str = '';
 
-        switch (formElement.titleFormat.value) {
-            case 'UNDERSCORE':
-                str += issueData.title.replace(/ /g, '_');
-                break;
-            case 'NOOP':
-            default:
-                str += issueData.title;
-                break;
-        }
+    const numVal = parseInt(formElement.numberFormat.value, 10) || 0;
+    str += formValueType.numberFormat.actions[numVal](issueData.num)
 
-        previewElement.value = str;
-    };
-    formElement.addEventListener('change', () => {
-        chrome.storage.local.set(
-            Object.fromEntries(formValueKeys.map((k) => [k, formElement[k].value])),
-        );
-        renderPreviewText();
-    });
+    const divVal = parseInt(formElement.dividerFormat.value, 10) || 0;
+    str += formValueType.dividerFormat.actions[divVal]()
 
-    copyElement.addEventListener('click', () => {
-        previewElement.focus();
-        previewElement.select();
+    const titleVal = parseInt(formElement.titleFormat.value, 10) || 0;
+    str += formValueType.titleFormat.actions[titleVal](issueData.title)
 
-        document.execCommand('Copy');
-
-        ga('send', 'event', 'button', 'click', 'copy-btn',
-            Object.fromEntries(formValueKeys.map((k) => [k, formElement[k].value])));
-    });
-
-    chrome.tabs.executeScript(
-        {file: 'getIssueData.js'},
-        (res) => {
-            issueData = res ? JSON.parse(res) : issueData;
-            renderPreviewText();
-        },
+    previewElement.value = str;
+  };
+  formElement.addEventListener('change', () => {
+    chrome.storage.local.set(
+      Object.fromEntries(Object.keys(formValueType)
+        .map((k) => [k, formElement[k].value])),
     );
+    renderPreviewText();
+  });
+
+  copyElement.addEventListener('click', () => {
+    // if (!issueData.num && !issueData.title) return;
+    previewElement.focus();
+    previewElement.select();
+
+    document.execCommand('Copy');
+
+    Object.keys(formValueType).forEach((k) => {
+      const value = formValueType[k]
+          .type[parseInt(formElement[k].value, 10) || 0]
+        || formValueType[k].type[0];
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'button',
+        eventAction: `click_copy:${k}`,
+        eventLabel: value,
+      });
+    });
+  });
+
+  chrome.tabs.executeScript(
+    { file: 'getIssueData.js' },
+    (res) => {
+      issueData = res ? JSON.parse(res) : issueData;
+      renderPreviewText();
+    },
+  );
 });
