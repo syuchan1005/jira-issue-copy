@@ -2,7 +2,7 @@
 import App from '../svelte/Popup.svelte';
 
 const app = new App({
-	target: document.body,
+  target: document.body,
 });
 
 export default app;
@@ -52,6 +52,22 @@ window.addEventListener('DOMContentLoaded', () => {
   const previewElement = document.querySelector('#preview-input');
   const copyElement = document.querySelector('#copy-btn');
 
+  let issueData = { num: '', title: '' };
+  const renderPreviewText = () => {
+    let str = '';
+
+    const numVal = parseInt(formElement.numberFormat.value, 10) || 0;
+    str += formValueType.numberFormat.actions[numVal](issueData.num);
+
+    const divVal = parseInt(formElement.dividerFormat.value, 10) || 0;
+    str += formValueType.dividerFormat.actions[divVal]();
+
+    const titleVal = parseInt(formElement.titleFormat.value, 10) || 0;
+    str += formValueType.titleFormat.actions[titleVal](issueData.title);
+
+    previewElement.value = str;
+  };
+
   chrome.storage.local.get(Object.keys(formValueType), (res) => {
     if (res) {
       Object.keys(formValueType).forEach((k) => {
@@ -60,22 +76,6 @@ window.addEventListener('DOMContentLoaded', () => {
       renderPreviewText();
     }
   });
-
-  let issueData = { num: '', title: '' };
-  const renderPreviewText = () => {
-    let str = '';
-
-    const numVal = parseInt(formElement.numberFormat.value, 10) || 0;
-    str += formValueType.numberFormat.actions[numVal](issueData.num)
-
-    const divVal = parseInt(formElement.dividerFormat.value, 10) || 0;
-    str += formValueType.dividerFormat.actions[divVal]()
-
-    const titleVal = parseInt(formElement.titleFormat.value, 10) || 0;
-    str += formValueType.titleFormat.actions[titleVal](issueData.title)
-
-    previewElement.value = str;
-  };
   formElement.addEventListener('change', () => {
     chrome.storage.local.set(
       Object.fromEntries(Object.keys(formValueType)
@@ -93,7 +93,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     Object.keys(formValueType).forEach((k) => {
       const value = formValueType[k]
-          .type[parseInt(formElement[k].value, 10) || 0]
+        .type[parseInt(formElement[k].value, 10) || 0]
         || formValueType[k].type[0];
       ga('send', {
         hitType: 'event',
