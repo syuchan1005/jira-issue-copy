@@ -3,7 +3,7 @@
   "name": "Jira Issue Copy",
   "author": "syuchan1005<syuchan.dev@gmail.com>",
   "permissions": ["activeTab", "storage", "clipboardWrite"],
-  "content_security_policy": "script-src 'self' 'sha256-7J/Bd0/flRIAULm8ehX3pYEicOEMY7PBKFB9eLh/uDQ=' https://www.google-analytics.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'sha256-ov2blWk7bkz3uoPG+i+U6oivfuDHAQb9MTmg0FHxy7E=' 'sha256-wkjjkobC2KELBhEF86F3liMYLHUGTI36CCNflnQF+3Q=' https://www.google-analytics.com; object-src 'self'",
   "browser_action": {
     "default_title": "Jira Issue Copy",
     "default_popup": "popup.html"
