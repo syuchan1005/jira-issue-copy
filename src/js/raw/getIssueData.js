@@ -8,6 +8,6 @@
     const issueNumber = (numberEl || numberEl2).textContent;
     const issueTitle = titleEl.textContent;
 
-    return JSON.stringify({ num: issueNumber, title: issueTitle });
+    return { num: issueNumber, title: issueTitle };
   }
 })();

@@ -21,9 +21,6 @@ export default {
     path: path.join(__dirname, 'build'),
     filename: '[name].bundle.js',
   },
-  resolve: {
-    extensions: ['.ts', '.js'],
-  },
   module: {
     rules: [
       {
