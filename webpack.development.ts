@@ -5,5 +5,5 @@ import baseConfig from './webpack.config';
 
 export default merge(baseConfig, {
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'hidden-source-map',
 });
