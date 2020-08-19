@@ -17,5 +17,5 @@
 
 # Develop memo
 ## Content Scripts
-- Add `entry` in `webpack.config.js`
+- Add `entry` in `webpack.config.ts`
 - Write `manifest.js` (`js` will be `${webpackEntryName}.bundle.js`)

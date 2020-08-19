@@ -1,10 +1,9 @@
 module.exports = {
   extends: [
-    'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/recommended',
     'airbnb-base',
   ],
   globals: {
-    chrome: 'readonly',
     ga: 'readonly',
   },
   plugins: ['@typescript-eslint'],

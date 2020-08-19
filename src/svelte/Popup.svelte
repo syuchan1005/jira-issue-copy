@@ -1,7 +1,9 @@
-<h1>Hello {name}!</h1>
+<template>
+    <h1>Hello {name}!</h1>
+</template>
 
 <script>
-export let name;
+  const name = 'test';
 </script>
 
 <style>

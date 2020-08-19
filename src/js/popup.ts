@@ -1,12 +1,14 @@
-/*
+/// <reference types="google.analytics" />
+
+import { browser } from 'webextension-polyfill-ts';
+
 import App from '../svelte/Popup.svelte';
 
 const app = new App({
-  target: document.body,
+  target: document.querySelector('#main'),
 });
 
 export default app;
-*/
 
 window.addEventListener('DOMContentLoaded', () => {
   const formValueType = {
@@ -49,35 +51,40 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const formElement = document.querySelector('#main-form');
-  const previewElement = document.querySelector('#preview-input');
+  const previewElement: HTMLInputElement = document.querySelector('#preview-input');
   const copyElement = document.querySelector('#copy-btn');
 
   let issueData = { num: '', title: '' };
   const renderPreviewText = () => {
     let str = '';
 
+    // @ts-ignore
     const numVal = parseInt(formElement.numberFormat.value, 10) || 0;
     str += formValueType.numberFormat.actions[numVal](issueData.num);
 
+    // @ts-ignore
     const divVal = parseInt(formElement.dividerFormat.value, 10) || 0;
     str += formValueType.dividerFormat.actions[divVal]();
 
+    // @ts-ignore
     const titleVal = parseInt(formElement.titleFormat.value, 10) || 0;
     str += formValueType.titleFormat.actions[titleVal](issueData.title);
 
     previewElement.value = str;
   };
 
-  chrome.storage.local.get(Object.keys(formValueType), (res) => {
-    if (res) {
-      Object.keys(formValueType).forEach((k) => {
-        formElement[k].value = parseInt(res[k], 10) || 0;
-      });
-      renderPreviewText();
-    }
-  });
+  browser.storage.local.get(Object.keys(formValueType))
+    .then((res) => {
+      if (res) {
+        Object.keys(formValueType).forEach((k) => {
+          formElement[k].value = parseInt(res[k], 10) || 0;
+        });
+        renderPreviewText();
+      }
+    });
   formElement.addEventListener('change', () => {
-    chrome.storage.local.set(
+    browser.storage.local.set(
+      // @ts-ignore
       Object.fromEntries(Object.keys(formValueType)
         .map((k) => [k, formElement[k].value])),
     );
@@ -93,8 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     Object.keys(formValueType).forEach((k) => {
       const value = formValueType[k]
-        .type[parseInt(formElement[k].value, 10) || 0]
-        || formValueType[k].type[0];
+        .type[parseInt(formElement[k].value, 10) || 0] || formValueType[k].type[0];
       ga('send', {
         hitType: 'event',
         eventCategory: 'button',
@@ -104,11 +110,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  chrome.tabs.executeScript(
-    { file: 'getIssueData.js' },
-    (res) => {
+  browser.tabs.executeScript({ file: 'getIssueData.js' })
+    .then((res) => {
+      // @ts-ignore
       issueData = res ? JSON.parse(res) : issueData;
       renderPreviewText();
-    },
-  );
+    });
 });
