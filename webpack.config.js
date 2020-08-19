@@ -10,8 +10,6 @@ module.exports = {
   context: path.normalize(path.join(__dirname, 'src')),
   entry: {
     popup: './js/popup.js',
-    options: './js/options.js',
-    background: './js/background.js',
 
     // content scripts
     // getIssueData: './js/getIssueData.js',
@@ -72,16 +70,6 @@ module.exports = {
       template: 'popup.html',
       filename: 'popup.html',
       chunks: ['popup'],
-    }),
-    new HtmlWebpackPlugin({
-      template: 'options.html',
-      filename: 'options.html',
-      chunks: ['options'],
-    }),
-    new HtmlWebpackPlugin({
-      template: 'background.html',
-      filename: 'background.html',
-      chunks: ['background'],
     }),
     new WriteFilePlugin(),
   ],
