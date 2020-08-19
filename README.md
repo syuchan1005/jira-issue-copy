@@ -13,3 +13,9 @@
 1. Open Jira issues page
 2. click or open issue
 3. click extension icon
+
+
+# Develop memo
+## Content Scripts
+- Add `entry` in `webpack.config.js`
+- Write `manifest.js` (`js` will be `${webpackEntryName}.bundle.js`)

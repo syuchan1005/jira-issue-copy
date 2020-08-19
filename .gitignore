@@ -1,2 +1,5 @@
-.idea
-*.pem
+node_modules/
+build/
+old/
+.idea/
+

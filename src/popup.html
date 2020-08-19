@@ -1,10 +1,18 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+</body>
+</html>
+-->
+
 <html lang="en">
 <head>
     <title>Jira Issue Copy</title>
-
-    <link rel="stylesheet" type="text/css" href="lib/semantic.min.css">
-    <script src="lib/jquery-3.1.1.min.js"></script>
-    <script src="lib/semantic.min.js"></script>
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -16,8 +24,6 @@
         ga('set', 'checkProtocolTask', null);
         ga('send', 'pageview', '/popup.html');
     </script>
-
-    <script type="text/javascript" src="popup.js"></script>
 
     <style>
         body {
@@ -100,10 +106,8 @@
 </form>
 <div class="ui fluid form">
     <div class="field">
-        <div class="ui pointing below label">
-            Preview
-        </div>
         <div class="ui action input">
+            <label for="preview-input">Preview</label>
             <input type="text" name="preview" id="preview-input" readonly>
             <button id="copy-btn" class="ui primary button">Copy</button>
         </div>
