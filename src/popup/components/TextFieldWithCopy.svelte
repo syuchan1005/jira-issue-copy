@@ -18,13 +18,15 @@
   // data
   let previewField: HTMLInputElement;
 
-  function clickCopy() {
+  function clickCopy(event) {
     if (!value) return;
 
     previewField.focus();
     previewField.select();
 
     document.execCommand('Copy');
+
+    event.target.focus();
 
     dispatch('copied');
   }

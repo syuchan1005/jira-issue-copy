@@ -6,13 +6,18 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WriteFilePlugin from 'write-file-webpack-plugin';
 import sveltePreprocess from 'svelte-preprocess';
 import autoprefixer from 'autoprefixer';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import cssnano from 'cssnano';
+import sass from 'sass';
+import Fiber from 'fibers';
 
 const fileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'eot', 'otf', 'svg', 'ttf', 'woff', 'woff2'];
 
 export default {
   context: path.normalize(path.join(__dirname, 'src')),
   entry: {
-    popup: './js/popup.ts',
+    popup: './popup/popup.ts',
 
     // content scripts
     // getIssueData: './js/getIssueData.js',
@@ -27,6 +32,26 @@ export default {
         test: /\.css$/,
         loader: 'style-loader!css-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: sass,
+              sassOptions: {
+                fiber: Fiber,
+                includePaths: [
+                  './node_modules',
+                ],
+              },
+            },
+          },
+        ],
       },
       {
         test: new RegExp(`.(${fileExtensions.join('|')})$`),
@@ -45,7 +70,6 @@ export default {
       },
       {
         test: /\.svelte$/,
-        exclude: /node_modules/,
         use: {
           loader: 'svelte-loader',
           options: {
@@ -65,10 +89,22 @@ export default {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[name].[id].css',
+    }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: cssnano,
+      cssProcessorPluginOptions: {
+        preset: ['default', { discardComments: { removeAll: true } }],
+      },
+      canPrint: true,
+    }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'img/*.png', flatten: true },
-        'js/raw',
+        { from: '../icons/*.png', flatten: true },
+        'contentsScript/raw',
         {
           from: 'manifest.json',
           transform(content) {
@@ -82,7 +118,7 @@ export default {
       ],
     }),
     new HtmlWebpackPlugin({
-      template: 'popup.html',
+      template: 'popup/popup.html',
       filename: 'popup.html',
       chunks: ['popup'],
     }),
