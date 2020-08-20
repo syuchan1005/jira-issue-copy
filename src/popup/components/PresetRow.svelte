@@ -8,16 +8,18 @@
       <div class="tri-icon"></div>
     </div>
   </div>
-  <div class:none={!open} class="content">
-    <button on:click={() => dispatch("click:remove")}>remove</button>
-    <label>
-      Name
-      <input
-        type="text"
-        bind:value={preset.name}
-        on:change={(e) => preset = { ...preset, name: e.target.value }}
-      />
-    </label>
+  <div class="content" class:none={!open}>
+    <button class="remove-btn" on:click={() => dispatch("click:remove")}>remove</button>
+    <div>
+      <label>
+        Name
+        <input
+          type="text"
+          bind:value={preset.name}
+          on:change={(e) => preset = { ...preset, name: e.target.value }}
+        />
+      </label>
+    </div>
     {#each formType.types as type (type)}
       <RadioButtonGroup
         title={formType.titles[type]}
@@ -81,7 +83,7 @@
   }
 
   .none {
-    display: none;
+    display: none !important;
   }
 
   .header {
@@ -92,6 +94,13 @@
 
   .content {
     user-select: none;
+    display: grid;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .remove-btn {
+    width: fit-content;
   }
 
   .tri-icon {
