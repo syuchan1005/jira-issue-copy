@@ -1,7 +1,13 @@
-<div>
+<div class="field">
   <label>
-    Preview
-    <input type="text" readonly bind:value bind:this={previewField}>
+    {name}
+    <input
+      type="text"
+      readonly
+      bind:value
+      bind:this={previewField}
+      on:click={(e) => e.stopPropagation()}
+    >
   </label>
   <button on:click={clickCopy}>Copy</button>
 </div>
@@ -11,6 +17,7 @@
 
   // props
   export let value;
+  export let name = 'Preview';
 
   // const
   const dispatch = createEventDispatcher();
@@ -19,6 +26,7 @@
   let previewField: HTMLInputElement;
 
   function clickCopy(event) {
+    event.stopPropagation();
     if (!value) return;
 
     previewField.focus();
@@ -31,3 +39,20 @@
     dispatch('copied');
   }
 </script>
+
+<style>
+  .field {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    user-select: none;
+  }
+
+  label, input {
+    width: 100%;
+  }
+
+  input {
+    min-width: 200px;
+  }
+</style>

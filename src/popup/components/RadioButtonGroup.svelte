@@ -1,18 +1,29 @@
 <div>
   <div>{title}</div>
-  {#each items as item, i (item)}
+  {#each items as item (item.value)}
     <label>
-      <input type="radio" bind:group={checked} value={i}>
-      {item}
+      <input type="radio" bind:group={checked} value={item.value}>
+      {item.name}
     </label>
   {/each}
 </div>
 
 <script lang="ts">
-  export let title: string;
-  export let items: string[];
+  import { createEventDispatcher } from 'svelte';
 
-  export let checked: number = 0;
+  //const
+  const dispatch = createEventDispatcher();
+
+  // props
+  export let title: string;
+  export let items: Array<{
+    name: string,
+    value: string,
+  }>;
+
+  export let checked: string = 0;
+
+  $: dispatch('change', checked);
 </script>
 
 <style>

@@ -1,5 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import path from 'path';
+// @ts-ignore
+// eslint-disable-next-line no-unused-vars
+import webpack from 'webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -14,7 +17,7 @@ import Fiber from 'fibers';
 
 const fileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'eot', 'otf', 'svg', 'ttf', 'woff', 'woff2'];
 
-export default {
+const config: webpack.Configuration = {
   context: path.normalize(path.join(__dirname, 'src')),
   entry: {
     popup: './popup/popup.ts',
@@ -25,6 +28,9 @@ export default {
   output: {
     path: path.join(__dirname, 'build'),
     filename: '[name].bundle.js',
+  },
+  resolve: {
+    extensions: ['.ts', '.mjs', '.js', '.svelte'],
   },
   module: {
     rules: [
@@ -125,3 +131,5 @@ export default {
     new WriteFilePlugin(),
   ],
 };
+
+export default config;
