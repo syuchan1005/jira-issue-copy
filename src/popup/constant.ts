@@ -35,6 +35,11 @@ export const formType: FormType = {
       action: (s) => s.num,
     },
     {
+      name: 'None',
+      value: 'NONE',
+      action: () => '',
+    },
+    {
       name: 'Uppercase',
       value: 'UPPER',
       action: (s) => s.num.toUpperCase(),
@@ -72,6 +77,11 @@ export const formType: FormType = {
       name: 'Noop',
       value: 'NOOP',
       action: (s) => s.title,
+    },
+    {
+      name: 'None',
+      value: 'NONE',
+      action: () => '',
     },
     {
       name: 'Underscore (_)',
