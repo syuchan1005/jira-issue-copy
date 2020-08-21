@@ -13,6 +13,22 @@
         p.splice(i, 1);
         setPresets(p);
       }}
+      on:click:up={() => {
+        if (i === 0) return;
+        const p = [...presets];
+        const a = p[i - 1];
+        p[i - 1] = p[i];
+        p[i] = a;
+        setPresets(p);
+      }}
+      on:click:down={() => {
+        if (i >= presets.length) return;
+        const p = [...presets];
+        const a = p[i + 1];
+        p[i + 1] = p[i];
+        p[i] = a;
+        setPresets(p);
+      }}
     />
     <Divider />
   {/each}

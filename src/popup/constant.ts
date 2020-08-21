@@ -92,13 +92,15 @@ export const formType: FormType = {
 };
 
 export type Preset = {
+  open: boolean,
   name: string,
   format: {
-    [key: string]: number | string,
+    [key: string]: string,
   },
 };
 
 export const defaultPreset = (): Preset => ({
+  open: false,
   name: 'Preset',
   format: {
     numberFormat: formType.numberFormat[0].value,

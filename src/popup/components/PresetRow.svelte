@@ -1,15 +1,15 @@
 <div class="row">
-  <div class="header" on:click={() => open = !open}>
+  <div class="header" on:click={() => preset = { ...preset, open: !preset.open }}>
     <TextFieldWithCopy readonly name={preset.name} value={text} on:copied={sendCopiedGA}/>
     <div
       class="open-icon"
-      class:closed={!open}
+      class:closed={!preset.open}
     >
       <div class="tri-icon"></div>
     </div>
   </div>
-  <div class="content" class:none={!open}>
-    <button class="remove-btn" on:click={() => dispatch("click:remove")}>remove</button>
+  <div class="content" class:none={!preset.open}>
+    <PresetControlButtons dispatch={dispatch} />
     <div>
       <label>
         Name
@@ -42,6 +42,7 @@
     IssueData,
     defaultIssueData,
   } from '../constant';
+  import PresetControlButtons from './PresetControlButtons.svelte';
 
   // props
   export let issueData: IssueData = defaultIssueData();
@@ -50,11 +51,10 @@
   // const
   const dispatch = createEventDispatcher();
 
-  // data
-  let open = false;
-
   // watch
-  $: { dispatch('change:preset', preset); }
+  $: {
+    dispatch('change:preset', preset);
+  }
 
   // computed
   let text: string = '';
@@ -62,7 +62,7 @@
     text = formType.types.reduce((str, type) => {
       const edited = (formType[type]
           .find(({ value }) => value === preset.format[type])
-        || formType[type][0]).action(issueData)
+        || formType[type][0]).action(issueData);
       return `${str}${edited}`;
     }, '');
   }
@@ -97,10 +97,6 @@
     display: grid;
     gap: 8px;
     margin-top: 8px;
-  }
-
-  .remove-btn {
-    width: fit-content;
   }
 
   .tri-icon {
