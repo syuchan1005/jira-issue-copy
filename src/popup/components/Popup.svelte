@@ -34,7 +34,7 @@
   {/each}
 
   <div class="add">
-    <button on:click={() => setPresets([...presets, defaultPreset()])}>Add</button>
+    <button on:click={clickAdd}>Add</button>
   </div>
 </main>
 
@@ -69,6 +69,11 @@
       .catch(() => { /* ignored */ }),
   ]));
 
+  function clickAdd() {
+    const preset = defaultPreset();
+    preset.name = `${preset.name} ${presets.length + 1}`;
+    setPresets([...presets, preset]);
+  }
   function setPresets(presetList: Array<Preset>) {
     presets = presetList;
     browser.storage.local.set({ presets: presetList });
