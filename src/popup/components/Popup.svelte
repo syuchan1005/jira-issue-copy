@@ -48,7 +48,7 @@
     browser.tabs.executeScript({ file: 'getIssueData.js' })
       .then((res) => {
         if (!res || res.length < 1) return;
-        issueData = res[0] || defaultIssueData;
+        issueData = res[0] || defaultIssueData();
       })
       .catch(() => { /* ignored */ }),
   ]));
