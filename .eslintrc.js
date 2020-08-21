@@ -16,4 +16,20 @@ module.exports = {
     node: true,
     es6: true,
   },
+  settings: {
+    'import/resolver': 'webpack',
+    'import/extensions': ['.js', '.mjs', '.ts', '.svelte'],
+  },
+  rules: {
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        mjs: 'never',
+        ts: 'never',
+        svelte: 'never',
+      },
+    ],
+  },
 };

@@ -21,6 +21,7 @@ const config: webpack.Configuration = {
   context: path.normalize(path.join(__dirname, 'src')),
   entry: {
     popup: './popup/popup.ts',
+    background: './background/background.ts',
 
     // content scripts
     // getIssueData: './js/getIssueData.js',

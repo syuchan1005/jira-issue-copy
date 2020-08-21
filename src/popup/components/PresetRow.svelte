@@ -41,7 +41,8 @@
     defaultPreset,
     IssueData,
     defaultIssueData,
-  } from '../constant';
+    applyFormat,
+  } from '../../constant';
   import PresetControlButtons from './PresetControlButtons.svelte';
 
   // props
@@ -58,14 +59,7 @@
 
   // computed
   let text: string = '';
-  $: {
-    text = formType.types.reduce((str, type) => {
-      const edited = (formType[type]
-          .find(({ value }) => value === preset.format[type])
-        || formType[type][0]).action(issueData);
-      return `${str}${edited}`;
-    }, '');
-  }
+  $: text = applyFormat(preset.format, issueData);
 
   function sendCopiedGA() {
     ga('send', {

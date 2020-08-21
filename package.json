@@ -20,6 +20,7 @@
     "cssnano": "^4.1.10",
     "eslint": "^7.7.0",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-import-resolver-webpack": "^0.12.2",
     "eslint-plugin-import": "^2.22.0",
     "fibers": "^5.0.0",
     "file-loader": "6.0.0",
@@ -45,6 +46,7 @@
     "write-file-webpack-plugin": "4.5.1"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "uuid": "^8.3.0"
   }
 }
