@@ -1,6 +1,6 @@
 {
   "name": "jira-issue-copy",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Jira issue number and title to clipboard",
   "scripts": {
     "build:development": "cross-env NODE_ENV=react TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack --config webpack.development.ts",
