@@ -1,0 +1,22 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+    <g id="frame" stroke="#000000" fill-opacity="0" stroke-width="8">
+        <rect rx="5" height="82" width="66" y="34" x="41" />
+        <rect height="12" width="31" y="22" x="58" />
+    </g>
+    <g id="content" stroke="#000000" fill="#000000" stroke-width="5">
+        <rect width="33" height="5" y="60" x="65" />
+        <rect width="33" height="5" y="75" x="65" />
+        <rect width="33" height="5" y="90" x="65" />
+        <rect width="4" height="5" y="60" x="50" />
+        <rect width="4" height="5" y="75" x="50" />
+        <rect width="4" height="5" y="90" x="50" />
+    </g>
+    <g id="jira-logo" stroke="#0052cc" fill="#0052cc" stroke-width="1.5">
+        <rect height="8" width="32" y="40" x="10" />
+        <rect transform="rotate(90 38,56) " height="8" width="32" y="52" x="22" />
+        <rect height="8" width="32" y="25" x="25" />
+        <rect transform="rotate(90 53,41)" height="8" width="32" y="37" x="37" />
+        <rect height="7" width="32" y="10" x="40" />
+        <rect transform="rotate(90 68,26)" height="8" width="32" y="22" x="53" />
+    </g>
+</svg>
