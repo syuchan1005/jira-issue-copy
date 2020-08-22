@@ -1,5 +1,5 @@
 <main>
-  {#each presets as preset, i (i)}
+  {#each presets as preset, i (preset.id)}
     <PresetRow
       bind:issueData
       bind:preset={preset}

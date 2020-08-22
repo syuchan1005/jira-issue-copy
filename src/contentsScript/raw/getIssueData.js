@@ -1,3 +1,5 @@
+// The same thing is in background.js
+
 // eslint-disable-next-line consistent-return
 (() => {
   const numberEl = document.querySelector('#issuekey-val');

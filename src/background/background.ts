@@ -12,6 +12,13 @@ import {
 browser.runtime.onInstalled.addListener(resetContextMenus);
 
 browser.contextMenus.onClicked.addListener(async (data) => {
+  // When there is no preset.
+  if (data.menuItemId === parentContextMenuId) {
+    if (browser.browserAction.openPopup) {
+      await browser.browserAction.openPopup();
+    }
+    return;
+  }
   if (data.parentMenuItemId !== parentContextMenuId) return;
 
   // @ts-ignore
@@ -20,13 +27,37 @@ browser.contextMenus.onClicked.addListener(async (data) => {
   const preset = presets.find((p) => p.id === data.menuItemId);
   if (!preset) return;
 
-  const res = await browser.tabs.executeScript({ file: 'getIssueData.js' })
-    .catch(() => { /* ignored */ });
-  if (!res || res.length < 1) return;
+  let issueData;
+  // click on the link
+  if (data.linkUrl) {
+    const htmlText = await fetch(data.linkUrl)
+      .then((res) => res.text())
+      .catch(() => /* ignored */ '');
+    const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+    /* getIssueData.js */
+    const numberEl = doc.querySelector('#issuekey-val');
+    const numberEl2 = doc.querySelector('#key-val');
+    const titleEl = doc.querySelector('#summary-val');
 
-  const copyText = applyFormat(preset.format, res[0]);
+    if ((numberEl || numberEl2) && titleEl) {
+      const issueNumber = (numberEl || numberEl2).textContent;
+      const issueTitle = titleEl.textContent;
+
+      issueData = { num: issueNumber, title: issueTitle };
+    }
+    /* End */
+  } else {
+    const res = await browser.tabs.executeScript({ file: 'getIssueData.js' })
+      .catch(() => { /* ignored */ });
+    if (!res || res.length < 1) return;
+    // eslint-disable-next-line prefer-destructuring
+    issueData = res[0];
+  }
+
+  if (!issueData) return;
+
+  const copyText = applyFormat(preset.format, issueData);
   await browser.tabs.executeScript({
-    // language=Javascript
     code: `
       (() => {
         var copyFrom = document.createElement("textarea");
